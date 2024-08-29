@@ -5,10 +5,20 @@ const App = () => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [breed, setBreed] = useState('');
-  const [activityLevel, setActivityLevel] = useState('I w');
+  const [activityLevel, setActivityLevel] = useState('Medium');
   const [kibbles, setKibbles] = useState([]);
-  const [selectedKibble, setSelectedKibble] = useState('');
+  const [selectedKibble, setSelectedKibble] = useState('Example Kibble');
   const [result, setResult] = useState(null);
+
+  // Mapping activity level to numeric values
+  const activityLevelMapping = {
+    Low: 1.0,
+    Medium: 1.2,
+    High: 1.4
+  };
+
+  
+
 
   useEffect(() => {
     axios.get('https://dog-kibble-backend.onrender.com/api/kibble')
@@ -18,8 +28,16 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Convert the activityLevel to its corresponding numeric value
+    const numericActivityLevel = activityLevelMapping[activityLevel];
+
     axios.post('https://dog-kibble-backend.onrender.com/api/calculate', {
-      age, weight, breed, activityLevel, kibbleName: selectedKibble
+      age,
+      weight,
+      breed,
+      activityLevel: numericActivityLevel, 
+      kibbleName: selectedKibble
     }).then(response => setResult(response.data))
       .catch(error => console.error(error));
   };
@@ -31,9 +49,9 @@ const App = () => {
         <input type="number" placeholder="Weight (kg)" value={weight} onChange={(e) => setWeight(e.target.value)} />
         <input type="text" placeholder="Breed" value={breed} onChange={(e) => setBreed(e.target.value)} />
         <select value={activityLevel} onChange={(e) => setActivityLevel(e.target.value)}>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
         </select>
         <select value={selectedKibble} onChange={(e) => setSelectedKibble(e.target.value)}>
           {kibbles.map(kibble => (
