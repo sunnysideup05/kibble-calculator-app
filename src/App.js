@@ -17,9 +17,6 @@ const App = () => {
     High: 1.4
   };
 
-  
-
-
   useEffect(() => {
     axios.get('https://dog-kibble-backend.onrender.com/api/kibble')
       .then(response => setKibbles(response.data))
