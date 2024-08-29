@@ -5,20 +5,20 @@ const App = () => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [breed, setBreed] = useState('');
-  const [activityLevel, setActivityLevel] = useState('low');
+  const [activityLevel, setActivityLevel] = useState('I w');
   const [kibbles, setKibbles] = useState([]);
   const [selectedKibble, setSelectedKibble] = useState('');
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/kibble')
+    axios.get('https://dog-kibble-backend.onrender.com/api/kibble')
       .then(response => setKibbles(response.data))
       .catch(error => console.error(error));
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/calculate', {
+    axios.post('https://dog-kibble-backend.onrender.com/api/calculate', {
       age, weight, breed, activityLevel, kibbleName: selectedKibble
     }).then(response => setResult(response.data))
       .catch(error => console.error(error));
